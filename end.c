@@ -186,7 +186,7 @@ void child4Callback(int sig) {
     reseivedMessage(4, sig);
     if (kill(readPID(8), SIGUSR1) == -1)
     failure("Can not sent     a signal\n");
-    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 3, getpid(), getppid(), getTime());
+    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 4, getpid(), getppid(), getTime());
 }
 
 //child 5 process signal
@@ -194,7 +194,7 @@ void child5Callback(int sig) {
     reseivedMessage(5, sig);
     if (kill(readPID(2), SIGUSR1) == -1)
     failure("Can not sent     a signal\n");
-    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 4, getpid(), getppid(), getTime());
+    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 5, getpid(), getppid(), getTime());
 
 }
 
@@ -203,7 +203,7 @@ void child6Callback(int sig) {
     reseivedMessage(6, sig);
     if (kill(readPID(7), SIGUSR1) == -1)
     failure("Can not sent     a signal\n");
-    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 4, 		getpid(), getppid(), getTime());
+    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 6, 		getpid(), getppid(), getTime());
 }
 
 //child 7 process signal
@@ -211,7 +211,7 @@ void child7Callback(int sig) {
     reseivedMessage(7, sig);
     if (kill(-readPID(4), SIGUSR2) == -1)
     failure("Can not sent     a signal\n");
-    printf("%d PID: %d PPID: %d sent     SIGUSR2 Time: %lld\n", 4, 	       getpid(), getppid(), getTime());
+    printf("%d PID: %d PPID: %d sent     SIGUSR2 Time: %lld\n", 7, 	       getpid(), getppid(), getTime());
     
 }
 
