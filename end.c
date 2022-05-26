@@ -148,11 +148,8 @@ void child1Callback(int sig) {
     
     if (usr2Count == SIG_COUNT) {
 
-    kill(readPID(2), SIGTERM);
-    kill(readPID(3), SIGTERM);
-    kill(-readPID(4), SIGTERM); 
-    kill(readPID(6), SIGTERM);
-    kill(readPID(7), SIGTERM);
+    kill(0, SIGTERM);
+
   
     int wpid;
     while (wait(0) > 0);
