@@ -142,21 +142,7 @@ void reseivedMessage(int who, int sig){
 
 //child 1 process signal
 void child1Callback(int sig) {
-//    reseivedMessage(1);
-    //wait all childs 2-8
-//    if (usr1Count == SIG_COUNT) {
-//
-//        kill(-readPID(2), SIGTERM);
-//
-//        int wpid;
-//        while (wait(0) > 0);
-//
-//        printf("%d PID: %d PPID: %d finished the work after %3ds SIGUSR1\n",1, getpid(), getppid(),usr1Count);
-//        exit(0);
-//    }
-//
-//    kill(-(readPID(2)), SIGUSR1);
-//    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 1, getpid(), getppid(), getTime());
+
     
     reseivedMessage(1, sig);
     
@@ -298,13 +284,6 @@ void createChildTree(child_t node) {
     if (node._index==5){
         setpgid(0, readPID(4));
     }
-//
-//    if (node._index == 6){
-//        setpgid(0, getpid());
-//    }
-//    if (node._index>6){
-//        setpgid(0, readPID(6));
-//    }
 
     printf("PID: %d PPID: %d GPID: %d Time: %lld CHILD%d\n", getpid(), getppid(),getpgrp(), getTime(), node._index);
 
