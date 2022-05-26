@@ -120,7 +120,8 @@ void terminateCallback(int sig) {
 	
     for (int j = 0; j < childs[i]._childs_count; j++) {
         int kidsPid = readPID(childs[i]._childs[j]);
-       // sleep(1);
+       
+       
         kill(kidsPid, SIGTERM);
     }
 
@@ -157,16 +158,20 @@ void child1Callback(int sig) {
 //    kill(-(readPID(2)), SIGUSR1);
 //    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 1, getpid(), getppid(), getTime());
     
-    reseivedMessage(8, sig);
+    reseivedMessage(1, sig);
     
     if (usr2Count == SIG_COUNT) {
 
-    kill(readPID(1), SIGTERM);
-
+    kill(readPID(2), SIGTERM);
+    kill(readPID(3), SIGTERM);
+    kill(-readPID(4), SIGTERM); 
+    kill(readPID(6), SIGTERM);
+    kill(readPID(7), SIGTERM);
+  
     int wpid;
     while (wait(0) > 0);
 
-    printf("%d PID: %d PPID: %d finished the work after %3ds SIGUSR1\n",1, getpid(), getppid(),usr1Count);
+    printf("%d PID: %d PPID: %d finished the work after %3ds SIGUSR1  %3ds SIGUSR2\n",1, getpid(), getppid(),usr1Count,usr2Count);
     exit(0);
     }
     
@@ -388,7 +393,7 @@ void main(void) {
     if (waitpid(readPID(1), NULL, 0) == -1)
     failure("Can not wait PID\n");
 
-    printf("%d PID: %d PPID: %d finished the work after %3ds SIGUSR1\n",0, getpid(), getppid(), usr1Count);
+    printf("%d PID: %d PPID: %d finished the work after %3ds SIGUSR1 %3ds SIGUSR2\n",0, getpid(), getppid(), usr1Count,usr2Count);
 
     return;
 }
