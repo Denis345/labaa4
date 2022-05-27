@@ -1,6 +1,6 @@
 #define failure(str) {perror(str); exit(-1);}
 #define CHILDS_COUNT 8
-#define SIG_COUNT 5
+#define SIG_COUNT 101
 #define FILE_NAME "tmpPID"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -131,25 +131,48 @@ void terminateCallback(int sig) {
 }
 
 void reseivedMessage(int who, int sig){
-    printf("%d PID: %d PPID: %d received SIGUSR1 Time: %lld\n", who, getpid(), getppid(), getTime());
+ 
     
-    if(sig==SIGUSR1)
-    usr1Count++;
+    if(sig==SIGUSR1){
+       printf("%d PID: %d PPID: %d received SIGUSR1 Time: %lld\n", who, 		getpid(), getppid(), getTime());
+     usr1Count++;
+    }
+   
     
-    if(sig==SIGUSR2)
-    usr2Count++;
+    if(sig==SIGUSR2){
+    printf("%d PID: %d PPID: %d received SIGUSR2 Time: %lld\n", who, 		getpid(), getppid(), getTime());
+     usr2Count++;
+    }
+   
 }
 
 //child 1 process signal
 void child1Callback(int sig) {
-
+//    reseivedMessage(1);
+    //wait all childs 2-8
+//    if (usr1Count == SIG_COUNT) {
+//
+//        kill(-readPID(2), SIGTERM);
+//
+//        int wpid;
+//        while (wait(0) > 0);
+//
+//        printf("%d PID: %d PPID: %d finished the work after %3ds SIGUSR1\n",1, getpid(), getppid(),usr1Count);
+//        exit(0);
+//    }
+//
+//    kill(-(readPID(2)), SIGUSR1);
+//    printf("%d PID: %d PPID: %d sent     SIGUSR1 Time: %lld\n", 1, getpid(), getppid(), getTime());
     
     reseivedMessage(1, sig);
     
     if (usr2Count == SIG_COUNT) {
 
-    kill(0, SIGTERM);
-
+    kill(readPID(2), SIGTERM);
+    kill(readPID(3), SIGTERM);
+    kill(-readPID(4), SIGTERM); 
+    kill(readPID(6), SIGTERM);
+    kill(readPID(7), SIGTERM);
   
     int wpid;
     while (wait(0) > 0);
@@ -281,6 +304,13 @@ void createChildTree(child_t node) {
     if (node._index==5){
         setpgid(0, readPID(4));
     }
+//
+//    if (node._index == 6){
+//        setpgid(0, getpid());
+//    }
+//    if (node._index>6){
+//        setpgid(0, readPID(6));
+//    }
 
     printf("PID: %d PPID: %d GPID: %d Time: %lld CHILD%d\n", getpid(), getppid(),getpgrp(), getTime(), node._index);
 
@@ -341,6 +371,7 @@ void createChildTree(child_t node) {
                     //start signal exchange
                     if (kill(readPID(6), SIGUSR1) == -1)
                     failure("Can not send a signal\n");
+                    printf("%d PID: %d PPID: %d sent     SIGUSR Time: %lld\n", 1, 	       getpid(), getppid(), getTime());
                     while (1) {}
                 }
                 break;
@@ -369,7 +400,7 @@ void main(void) {
     if (waitpid(readPID(1), NULL, 0) == -1)
     failure("Can not wait PID\n");
 
-    printf("%d PID: %d PPID: %d finished the work after %3ds SIGUSR1 %3ds SIGUSR2\n",0, getpid(), getppid(), usr1Count,usr2Count);
+    printf("%dEND  PID: %d PPID: %d finished the work after %3ds SIGUSR1 %3ds SIGUSR2\n",0, getpid(), getppid(), usr1Count,usr2Count);
 
     return;
 }
